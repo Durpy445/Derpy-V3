@@ -20,16 +20,19 @@ def InvenString(Id):
                     ReturningString = ReturningString + "" + FishieTuple[0] + " : " +str(FishieTuple[1]) + "\n"
         for Type in Inventorys[Id]:
             if Type != "Fish":
-                ReturningString = ReturningString + "## __"+Type+"s__\n"
-                List = {}
-                for Item in Inventorys[Id][Type]:
-                    if Item[0] in List:
-                        List[Item[0]] = List[Item[0]] + 1
-                    else:
-                        List[Item[0]] = 1
-                ListItems = [*List.items()]
-                for Tuple in ListItems:
-                    ReturningString = ReturningString + "" + Tuple[0] + " : " +str(Tuple[1]) + "\n"
+
+                if len(Inventorys[Id][Type]) != 0:
+
+                    ReturningString = ReturningString + "## __"+Type+"s__\n"
+                    List = {}
+                    for Item in Inventorys[Id][Type]:
+                        if Item[0] in List:
+                            List[Item[0]] = List[Item[0]] + 1
+                        else:
+                            List[Item[0]] = 1
+                    ListItems = [*List.items()]
+                    for Tuple in ListItems:
+                        ReturningString = ReturningString + "" + Tuple[0] + " : " +str(Tuple[1]) + "\n"
 
                     
         return ReturningString
