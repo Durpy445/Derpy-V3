@@ -46,16 +46,15 @@ async def on_message(message):
         if client.user in message.mentions:
             Content = "%Random"
         Command = Content.split("%")[1]
-        if Command == "": 
-            Command = "Random"
-        if Command.split(" ")[0].lower() in Samesies:
-            Command = Command.replace(Command.split(" ")[0],Samesies[Command.split(" ")[0]])
-        
-            
-        print(Command)
+        MainCommand = Command.split(" ")[0].lower()
+        if message.content == "%": 
+            MainCommand = "random"
+        if MainCommand in Samesies:
+            Command = Command.replace(MainCommand,Samesies[MainCommand])
+        print(Command) 
         for FileName in Functions:
             CommandName = FileName.split(".py")[0]
-            if CommandName.lower() == Command.split(" ")[0].lower():
+            if CommandName.lower() == MainCommand:
                 CommandModule = importlib.import_module(CommandName)
                 Args = Command.split(" ")[1:]
                 ToSend = CommandModule.Main(message.author,Args)
@@ -77,22 +76,16 @@ async def on_message(message):
                     Fishing[authorid] = [Args[0].lower(),time.time() - 2,time.time()]
                     Manage.UpdateList("Fishers.json",Fishers)
                     Manage.UpdateList("Fishing.json",Fishing)
-                     
 
     if authorid in Fishers:
         rand =  random.randint(0,30)
         if (time.time() - Fishing[authorid][1]) > 2:
             Fishing[authorid][1] = time.time()
             if rand == 0 or (time.time() - Fishing[authorid][2]) > 600 :
-                
-                
                 CanFind = Fishies[Fishing[authorid][0]]
-                
                 Total = 0
-
                 for Fish in CanFind:
                     Total += Fish[2]
-                
                 RandomWeight = random.randint(0,Total)
                 Total = 0
                 Found = False
@@ -101,15 +94,10 @@ async def on_message(message):
                     if (Total == RandomWeight or RandomWeight < Total) and Found == False:
                         Found = True
                         PickedFishNum += 1 
-
-                        
                 PickedFish = CanFind[PickedFishNum]
                 Fishers.remove(authorid)
                 del Fishing[authorid]
-
                 Manage.UpdateList("Fishers.json",Fishers)
-                
-
                 Inventory.Add(message.author,PickedFish,"Fish")
                 await message.reply(message.author.mention +" : Caught A **" + PickedFish[0] +"**!" )
             Manage.UpdateList("Fishing.json",Fishing)
