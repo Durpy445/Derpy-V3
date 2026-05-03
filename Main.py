@@ -1,5 +1,3 @@
-# This example requires the 'message_content' intent.
-
 import discord
 import os
 import importlib
@@ -29,7 +27,7 @@ sys.path.append(os.getcwd())
 import Inventory
 
 Samesies = {
-    "inv": "Inventory",
+    "inv": "inventory",
     "fih": "fish"
 }
 
@@ -51,6 +49,8 @@ async def on_message(message):
             MainCommand = "random"
         if MainCommand in Samesies:
             Command = Command.replace(MainCommand,Samesies[MainCommand])
+
+        MainCommand = Command.split(" ")[0].lower()
         print(Command) 
         for FileName in Functions:
             CommandName = FileName.split(".py")[0]
