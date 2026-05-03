@@ -42,16 +42,19 @@ async def on_message(message):
     if message.content.startswith('%') or client.user in message.mentions:
         Content = message.content
         if client.user in message.mentions:
-            Content = "%Random"
+            Content = "%random"
+        if message.content == "%":
+            print("Hi")
+            Content =  "%random"
         Command = Content.split("%")[1]
         MainCommand = Command.split(" ")[0].lower()
-        if message.content == "%": 
-            MainCommand = "random"
+        
         if MainCommand in Samesies:
             Command = Command.replace(MainCommand,Samesies[MainCommand])
 
         MainCommand = Command.split(" ")[0].lower()
-        print(Command) 
+        print(Command)
+
         for FileName in Functions:
             CommandName = FileName.split(".py")[0]
             if CommandName.lower() == MainCommand:
