@@ -7,16 +7,17 @@ def InvenString(Id):
     Inventorys = Manage.GetList("Inventorys.json")
     if Id in Inventorys:
         if "Fish" in Inventorys[Id]:
-            ReturningString = ReturningString + "## __Fih__ \n"
-            FishieList = {}
-            for Fishie in Inventorys[Id]["Fish"]:
-                if Fishie[0] in FishieList:
-                    FishieList[Fishie[0]] = FishieList[Fishie[0]] + 1 
-                else:
-                    FishieList[Fishie[0]] = 1
-            FishieItems = [*FishieList.items()]
-            for FishieTuple in FishieItems:
-                ReturningString = ReturningString + "" + FishieTuple[0] + " : " +str(FishieTuple[1]) + "\n"
+            if len(Inventorys[Id]["Fish"]) != 0:
+                ReturningString = ReturningString + "## __Fih__ \n"
+                FishieList = {}
+                for Fishie in Inventorys[Id]["Fish"]:
+                    if Fishie[0] in FishieList:
+                        FishieList[Fishie[0]] = FishieList[Fishie[0]] + 1 
+                    else:
+                        FishieList[Fishie[0]] = 1
+                FishieItems = [*FishieList.items()]
+                for FishieTuple in FishieItems:
+                    ReturningString = ReturningString + "" + FishieTuple[0] + " : " +str(FishieTuple[1]) + "\n"
         for Type in Inventorys[Id]:
             if Type != "Fish":
                 ReturningString = ReturningString + "## __"+Type+"s__\n"

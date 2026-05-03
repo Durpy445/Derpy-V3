@@ -81,7 +81,7 @@ async def on_message(message):
         rand =  random.randint(0,30)
         if (time.time() - Fishing[authorid][1]) > 2:
             Fishing[authorid][1] = time.time()
-            if rand == 0 or (time.time() - Fishing[authorid][2]) > 600 :
+            if rand == 0 or (time.time() - Fishing[authorid][2]) > 1200 :
                 CanFind = Fishies[Fishing[authorid][0]]
                 Total = 0
                 for Fish in CanFind:
