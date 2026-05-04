@@ -4,6 +4,8 @@ def Main(User,Args):
     Inventorys = Manage.GetList("Inventorys.json")
     UserId = str(User.id)
     if len(Args) > 0:
+        Args[0] = " ".join(Args)
+        Args[0] = Args[0].lower()
         if UserId not in Inventorys:
             return "You Have No "+ Args[0]
         if Args[0] not in Inventorys[UserId]:

@@ -1,6 +1,8 @@
 import Manage
 import json
 import random
+import time
+random.seed(time.time())
 def Main(User,Args):
     JsonFile = Manage.Read("Responses.json")
     ResponseArray = json.loads(JsonFile)
