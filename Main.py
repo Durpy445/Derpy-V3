@@ -6,15 +6,20 @@ import random
 import Manage
 import time
 
+random.seed(time.time())
 intents = discord.Intents.default()
 intents.message_content = True
 
 
 ManualChannel = None
 client = discord.Client(intents=intents)
+
+ClientEmojis = []
 @client.event
 async def on_ready():
     print(f'We have logged in as {client.user}')
+
+
    
 
 os.chdir("Commands")
@@ -28,8 +33,15 @@ import Inventory
 
 Samesies = {
     "inv": "inventory",
-    "fih": "fish"
+    "fih": "fish",
+    "turtle": "minecraft",
+    "up": "minecraft up",
+    "down": "minecraft down",
+    "left": "minecraft left",
+    "right": "minecraft right"
 }
+
+
 
 
 
@@ -52,16 +64,26 @@ async def on_message(message):
 
         MainCommand = Command.split(" ")[0].lower()
         print(Command)
-
+        UserToSend = message.author
+            
         for FileName in Functions:
             CommandName = FileName.split(".py")[0]
             if CommandName.lower() == MainCommand:
                 CommandModule = importlib.import_module(CommandName)
                 Args = Command.split(" ")[1:]
-                ToSend = CommandModule.Main(message.author,Args)
+
+                global ClientEmojis
+                if MainCommand == "minecraft":
+                    if len(Args) > 1:
+                        Args[1] =  await client.fetch_application_emojis()
+                    else:
+                        Args.append( await client.fetch_application_emojis())
+                ToSend = CommandModule.Main(UserToSend,Args)
                 await message.channel.send(ToSend)
         if Command.split(" ")[0].lower() == "fish":
             Args = Command.split(" ")[1:]
+           
+
             
             if authorid in fishers:
                 await message.reply("Your already fishing")

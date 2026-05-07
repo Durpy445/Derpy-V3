@@ -44,6 +44,14 @@ def Main(User,Args):
                 Exploring[Location].append([[Name,Value],Type,int(Weight)])
                 Manage.UpdateList("Exploring.json",Exploring)
                 return "Added: " +Name + " To " + Location
+        if Args[0].lower() == "emoji":
+            NewArgs = Args[1:]
+            Emojis = Manage.GetList("Emojis.json")
+            for NewEmoji in NewArgs:
+                if NewEmoji not in Emojis:
+                    Emojis.append(NewEmoji)
+            Manage.UpdateList("Emojis.json",Emojis)
+            return Emojis
                 
 
 
