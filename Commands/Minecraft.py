@@ -2,21 +2,22 @@ import Manage
 import time
 import os
 import discord
+import json
 
 BlockFolder = Manage.GetList("Info.json")["MCTextureFolder"]
 
 Textures = os.listdir("/home/n3bxi/Storage/Jar/assets/minecraft/textures/block/")
 
 def Main(User,Args):
-    print ( len(Args))
-    print(Args)
     TurtleIO = Manage.GetList("TurtleIO.json")
-    Args[0] = Args[0].lower()
-    if Args[0] == "left":
-        Args[0] = "back"
-    if Args[0] == "right":
-        Args[0]= "forward"
-    TurtleIO["Input"] = Args[0]
+    i = -1
+    print(Args)
+    for arg in Args:
+        if i != len(Args) -2 :
+            print(arg)
+            i += 1
+            Args[i] = Args[i].lower()
+    TurtleIO["Input"] = json.dumps(Args[:-1])
     Manage.UpdateList("TurtleIO.json",TurtleIO)
     StartTime = time.time()
     while Manage.GetList("TurtleIO.json")["Output"] == "":
@@ -36,9 +37,8 @@ def Main(User,Args):
         Lines = []
         for Block in Splitted[::-1]:
             if Block + ".png" in Textures:
-                emoji = discord.utils.get(Args[1], name=Block)
+                emoji = discord.utils.get(Args[len(Args) - 1], name=Block)
                 ReturnString += str(emoji)
-                print(ReturnString)
             else:
                 Total = 0
                 for Letter in Block:
@@ -54,18 +54,19 @@ def Main(User,Args):
         for Line in Lines:
             ReturnString += Line + "\n"
 
-        print(ReturnString)
         return ReturnString
     elif Output.split("@@@")[0] == "Inv":
         ReturnString = ""
         Splitted = Output.split("@@@")[1].split("\n")
-
+        I = 1
         for Slot in Splitted:
-            print(Slot)
+            ReturnString += "[" + str(I) +"] "
+
+            I += 1
             Name = Slot.split(":")[0]
             Count = Slot.split(":")[1]
             if Name + ".png" in Textures:
-                emoji = discord.utils.get(Args[1], name=Name)
+                emoji = discord.utils.get(Args[len(Args)-1], name=Name)
                 ReturnString += str(emoji)
             else:
                 ReturnString += Name

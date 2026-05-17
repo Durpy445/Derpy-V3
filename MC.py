@@ -29,15 +29,23 @@ async def echo(websocket):
                 
                 List = json.loads(message.split("@@@")[1])
                 String = ""
+                i = 0
                 for Slot in List:
-                    print(Slot)
-                    if Slot == None:
-                        Slot = {}
-                        Slot["name"] = "minceraft:air"
-                        Slot["count"] = 0
-                    String += Slot["name"].split(":")[1] + ":" + str(Slot["count"]) +"\n"
+                    print(type(Slot))
+                    print("A")
+                    if i != 16:
+                        i +=1
+                        print(Slot)
+                        if Slot == None:
+                            Slot = {}
+                            Slot["name"] = "minceraft:air"
+                            Slot["count"] = 0
+                        if List[16] == i:
+                            String += Slot["name"].split(":")[1] + ":" + str(Slot["count"])+ " (Selected)" +"\n"
+                        else:
+                            String += Slot["name"].split(":")[1] + ":" + str(Slot["count"]) +"\n"
 
-                String = String[:-2]
+                String = String[:-1]
  
                 Manage.UpdateList("TurtleIO.json",{"Input":"","Output": "Inv@@@" + String})
                 
